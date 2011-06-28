@@ -1,6 +1,7 @@
 import os.path
 from django.test.client import Client
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from ._utils import generate_random_image, TestCase
 from ..models import Image
 
@@ -9,7 +10,14 @@ class BrowseImagesTestCase(TestCase):
     
     def setUp(self):
 
+        user = User.objects.create_user('admin', 'admin@armstrongcms.org',
+                'admin')
+        user.is_superuser = True
+        user.save()
+
         self.c = Client()
+        self.c.login(username='admin', password='admin')
+
         self.images = [generate_random_image() for i in range(10)]    
 
     def test_browse_without_search(self):
@@ -51,3 +59,16 @@ class BrowseImagesTestCase(TestCase):
         f.close()
 
         self.assertTrue(Image.objects.filter(title=data['title']).exists())
+
+    def test_upload_not_superuser(self):
+
+        user = User.objects.create_user('shmo', 'shmo@armstrongcms.org',
+                'shmo')
+        user.save()
+
+        self.c.logout()
+        self.c.login(username='shmo', password='shmo')
+
+        response = self.c.get(reverse('images_admin_upload'), follow=True)
+
+        self.assertEqual(response.status_code, 404)
