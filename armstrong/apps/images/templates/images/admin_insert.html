@@ -1,0 +1,34 @@
+<html> 
+	<head> 
+        <script>
+        function insert_image() {
+            var width = document.getElementById('width').value,
+                height = document.getElementById('height').value,
+                html = '<img src="{{ image.get_absolute_url }}"';
+
+            if (width) {
+                html += ' width=' + width;
+            }
+            if (height) {
+                html += ' height=' + height;
+            }
+            html += ' />';
+
+            window.returnValue = html;
+            window.close();
+        }
+        </script>
+	</head> 
+<body> 
+
+    <h3>{{ image.title }}</h3>
+    <img src="{{ image.url }}" />
+
+    <p>
+    Width: <input type="text" id="width" name="width" /><br />
+    Height: <input type="text" id="height" name="height" />
+    </p>
+
+    <input type="button" value="Insert" onclick="insert_image();" /></form>
+</body>
+</html>
