@@ -43,6 +43,11 @@ class BrowseImagesTestCase(TestCase):
         self.assertEqual(len(response.context['image_list']), 1)
         self.assertTrue(self.images[0] in response.context['image_list'])
 
+    def test_get_upload_form(self):
+
+        response = self.c.get(reverse('images_admin_upload'))
+        self.assertEqual(response.status_code, 200)
+
     def test_upload_image(self):
 
         f = open(os.path.join(os.path.dirname(__file__),
