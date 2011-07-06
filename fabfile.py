@@ -13,11 +13,14 @@ settings = {
         'armstrong.core.arm_content',
         'armstrong.apps.images',
         'armstrong.apps.images.tests.images_support',
+        'south',
+        'sorl.thumbnail',
     ),
     'SITE_ID': 1,
-    'ROOT_URLCONF': 'armstrong.apps.images.urls',
-    'ARMSTRONG_UPLOAD_PATH': os.path.join(os.path.dirname(__file__),
-            'test_uploads'),
+    'ROOT_URLCONF': 'armstrong.apps.images.tests.images_support.urls',
+    'ARMSTRONG_UPLOAD_PATH': 'armstrong/test_uploads/',
+    'MEDIA_ROOT': os.path.join(os.path.dirname(__file__), 'media/'),
+    'MEDIA_URL': '/media/',
 }
 
 pip_install_first = True
