@@ -56,6 +56,9 @@ class RenderThumbnail(RedirectView):
         image = get_object_or_404(Image, pk=self.kwargs.get('pk'))
         geometry = self.kwargs.get('geometry')
 
-        self.url = get_thumbnail(image.image, geometry).url
+        if not geometry:
+            self.url = image.image.url
+        else:
+            self.url = get_thumbnail(image.image, geometry).url
 
         return super(RenderThumbnail, self).get_redirect_url(**kwargs)

@@ -86,3 +86,13 @@ class BrowseImagesTestCase(TestCase):
         response = self.c.get(url)
 
         self.assertEqual(response.status_code, 302)
+
+    def test_render_original(self):
+
+        url = reverse('images_render_original',
+                kwargs={'pk': self.images[0].id})
+
+        response = self.c.get(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(self.images[0].image.url in response['location'])
