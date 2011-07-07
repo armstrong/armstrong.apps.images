@@ -1,3 +1,5 @@
+{% load thumbnail %}
+<!doctype html>
 <html> 
 	<head> 
         <script>
@@ -19,16 +21,17 @@
         }
         </script>
 	</head> 
-<body> 
+    <body> 
+        <h3>{{ image.title }}</h3>
+        {% thumbnail image.image "300" as im %}
+        <img src="{{ im.url }}" />
+        {% endthumbnail %}
 
-    <h3>{{ image.title }}</h3>
-    <img src="{{ image.url }}" />
+        <p>
+        Width: <input type="text" id="width" name="width" /><br />
+        Height: <input type="text" id="height" name="height" />
+        </p>
 
-    <p>
-    Width: <input type="text" id="width" name="width" /><br />
-    Height: <input type="text" id="height" name="height" />
-    </p>
-
-    <input type="button" value="Insert" onclick="insert_image();" /></form>
-</body>
+        <input type="button" value="Insert" onclick="insert_image();" /></form>
+    </body>
 </html>
