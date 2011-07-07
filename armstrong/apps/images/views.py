@@ -15,18 +15,22 @@ class BrowseImages(ListView):
 
     def get_queryset(self):
 
+        fields = ['title', 'caption']
         query = self.request.GET.get('q')
-        qs = super(BrowseImages, self).get_queryset()
+        images = super(BrowseImages, self).get_queryset().order_by('-created')
 
         if not query:
-            return qs
+            return images
 
-        queries = []
-
+        outer_q = []
         for token in query.split():
-            queries.append(models.Q(title__icontains=token))
+            inner_q = []
+            for field in fields:
+                inner_q.append(models.Q(**{field + '__icontains': token}))
+            outer_q.append(reduce(operator.or_, inner_q))
 
-        return qs.filter(reduce(operator.and_, queries)).order_by('-created')
+        return images.filter(reduce(operator.and_, outer_q))
+
 
 class UploadImage(CreateView):
 
