@@ -74,6 +74,15 @@ class BrowseImagesTestCase(TestCase):
         self.c.logout()
         self.c.login(username='shmo', password='shmo')
 
-        response = self.c.get(reverse('images_admin_upload'), follow=True)
+        response = self.c.get(reverse('images_admin_upload'))
 
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
+
+    def test_render_thumbnail(self):
+
+        url = reverse('images_render_thumbnail',
+                kwargs={'pk': self.images[0].id, 'geometry': '100x200'})
+
+        response = self.c.get(url)
+
+        self.assertEqual(response.status_code, 302)

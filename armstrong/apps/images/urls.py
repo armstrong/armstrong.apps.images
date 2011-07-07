@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.views.generic import DetailView, CreateView
 from django.contrib.auth.decorators import permission_required
 from .models import Image
-from .views import BrowseImages, UploadImage
+from .views import BrowseImages, UploadImage, RenderThumbnail
 
 
 urlpatterns = patterns('',
@@ -18,5 +18,9 @@ urlpatterns = patterns('',
 
     url(r'^admin/upload/$', permission_required('images.add_image')(
             UploadImage.as_view()), name='images_admin_upload'),
+
+
+    url(r'^thumbnail/(?P<pk>\d+)/(?P<geometry>[0-9x]+)',
+            RenderThumbnail.as_view(), name='images_render_thumbnail'),
 
 )

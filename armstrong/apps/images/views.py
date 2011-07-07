@@ -2,9 +2,11 @@ import operator
 from django.contrib.admin.views.decorators import staff_member_required
 from django.template import RequestContext
 from django.db import models
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, RedirectView 
 from django.core.urlresolvers import reverse
+from django.shortcuts import redirect, get_object_or_404
 from .models import Image
+from sorl.thumbnail.shortcuts import get_thumbnail
 
 
 class BrowseImages(ListView):
@@ -44,3 +46,16 @@ class UploadImage(CreateView):
         else:
             return reverse('images_admin_insert',
                     kwargs={'pk': self.object.id})
+
+class RenderThumbnail(RedirectView):
+    
+    permanent = False
+
+    def get_redirect_url(self, **kwargs):
+
+        image = get_object_or_404(Image, pk=self.kwargs.get('pk'))
+        geometry = self.kwargs.get('geometry')
+
+        self.url = get_thumbnail(image.image, geometry).url
+
+        return super(RenderThumbnail, self).get_redirect_url(**kwargs)
