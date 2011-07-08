@@ -6,15 +6,19 @@
         function insert_image() {
             var width = document.getElementById('width').value,
                 height = document.getElementById('height').value,
-                html = '<img src="{{ image.get_absolute_url }}"';
+                html = '<img src="{% url images_render_thumbnail image.id '' %}';
 
             if (width) {
-                html += ' width=' + width;
+                html += width;
             }
             if (height) {
-                html += ' height=' + height;
+                html += 'x' + height;
             }
-            html += ' />';
+            if (!width && !height) {
+                html += 'original';
+            }
+
+            html += '" />';
 
             window.returnValue = html;
             window.close();
