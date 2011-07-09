@@ -1,4 +1,2 @@
--e git://github.com/domain51/d51.django.virtualenv.base#egg=d51.django.virtualenv.base
--e git://github.com/domain51/d51.django.virtualenv.test_runner#egg=d51.django.virtualenv.test_runner
--e git://github.com/bitprophet/fabric.git#egg=fabric
-armstrong.dev
+-r ./base.txt
+armstrong.dev>=1.4
