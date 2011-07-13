@@ -13,6 +13,7 @@ class BrowseImagesTestCase(TestCase):
         user = User.objects.create_user('admin', 'admin@armstrongcms.org',
                 'admin')
         user.is_superuser = True
+        user.is_staff = True
         user.save()
 
         self.c = Client()
@@ -22,14 +23,14 @@ class BrowseImagesTestCase(TestCase):
 
     def test_browse_without_search(self):
 
-        response = self.c.get(reverse('images_admin_browse'))
+        response = self.c.get(reverse('admin:images_admin_browse'))
 
         for image in self.images:
             self.assertTrue(image in response.context['image_list'])
 
     def test_browse_unmatching_search(self):
 
-        url = '%s?q=%s' % (reverse('images_admin_browse'), 'blahblah')
+        url = '%s?q=%s' % (reverse('admin:images_admin_browse'), 'blahblah')
         response = self.c.get(url)
         self.assertEqual(len(response.context['image_list']), 0)
 
@@ -38,14 +39,14 @@ class BrowseImagesTestCase(TestCase):
         self.images[0].title = 'doodaaday'
         self.images[0].save()
 
-        url = '%s?q=%s' % (reverse('images_admin_browse'), 'doodaa')
+        url = '%s?q=%s' % (reverse('admin:images_admin_browse'), 'doodaa')
         response = self.c.get(url)
         self.assertEqual(len(response.context['image_list']), 1)
         self.assertTrue(self.images[0] in response.context['image_list'])
 
     def test_get_upload_form(self):
 
-        response = self.c.get(reverse('images_admin_upload'))
+        response = self.c.get(reverse('admin:images_admin_upload'))
         self.assertEqual(response.status_code, 200)
 
     def test_upload_image(self):
@@ -59,24 +60,11 @@ class BrowseImagesTestCase(TestCase):
             'authors_override': 'bob marley',
         }
 
-        response = self.c.post(reverse('images_admin_upload'), data, 
+        response = self.c.post(reverse('admin:images_admin_upload'), data, 
                 follow=True)
         f.close()
 
         self.assertTrue(Image.objects.filter(title=data['title']).exists())
-
-    def test_upload_not_superuser(self):
-
-        user = User.objects.create_user('shmo', 'shmo@armstrongcms.org',
-                'shmo')
-        user.save()
-
-        self.c.logout()
-        self.c.login(username='shmo', password='shmo')
-
-        response = self.c.get(reverse('images_admin_upload'))
-
-        self.assertEqual(response.status_code, 302)
 
     def test_render_thumbnail(self):
 

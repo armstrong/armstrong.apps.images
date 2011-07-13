@@ -11,7 +11,7 @@
         <div>
         {% for image in image_list %}
             {% thumbnail image.image "100x100" crop="center" as im %}
-            <a href="{% url images_admin_insert image.id %}" title="{{ image.title }}"><img src="{{ im.url }}" /></a> 
+            <a href="{% url admin:images_admin_insert image.id %}" title="{{ image.title }}"><img src="{{ im.url }}" /></a> 
             {% endthumbnail %}
         {% endfor %}
         </div>

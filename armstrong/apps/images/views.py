@@ -44,7 +44,7 @@ class UploadImage(CreateView):
         if self.success_url:
             return super(UploadImage, self).get_success_url(self)
         else:
-            return reverse('images_admin_insert',
+            return reverse('admin:images_admin_insert',
                     kwargs={'pk': self.object.id})
 
 class RenderThumbnail(RedirectView):
