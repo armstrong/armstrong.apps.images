@@ -10,6 +10,7 @@ settings = {
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'django.contrib.sites',
+        'django.contrib.staticfiles',
         'armstrong.core.arm_content',
         'armstrong.apps.images',
         'armstrong.apps.images.tests.images_support',
@@ -18,9 +19,10 @@ settings = {
     ),
     'SITE_ID': 1,
     'ROOT_URLCONF': 'armstrong.apps.images.tests.images_support.urls',
-    'ARMSTRONG_UPLOAD_PATH': 'armstrong/test_uploads/',
+    'ARMSTRONG_IMAGES_UPLOAD_PATH': 'armstrong/test_uploads/',
     'MEDIA_ROOT': os.path.join(os.path.dirname(__file__), 'media/'),
     'MEDIA_URL': '/media/',
+    'STATIC_URL': '/static/',
 }
 
 pip_install_first = True
