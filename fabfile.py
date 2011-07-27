@@ -12,6 +12,8 @@ settings = {
         'django.contrib.sites',
         'django.contrib.staticfiles',
         'armstrong.core.arm_content',
+        'armstrong.core.arm_sections',
+        'armstrong.apps.content',
         'armstrong.apps.images',
         'armstrong.apps.images.tests.images_support',
         'south',

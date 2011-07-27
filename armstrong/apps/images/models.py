@@ -1,5 +1,6 @@
-from armstrong.core.arm_content.mixins.images.sorl import SorlImageMixin
-from armstrong.core.arm_content.images.base import ImageBase
+from armstrong.core.arm_content.mixins.images import SorlThumbnailMixin
+from armstrong.core.arm_content.mixins.images import ImageMixin
+from armstrong.apps.content.models import Content
 
-class Image(ImageBase, SorlImageMixin):
+class Image(Content, ImageMixin, SorlThumbnailMixin):
     pass

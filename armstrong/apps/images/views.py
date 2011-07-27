@@ -17,9 +17,9 @@ class BrowseImages(ListView):
 
     def get_queryset(self):
 
-        fields = ['title', 'caption']
+        fields = ['title', 'summary']
         query = self.request.GET.get('q')
-        images = super(BrowseImages, self).get_queryset().order_by('-created')
+        images = super(BrowseImages, self).get_queryset()
 
         if not query:
             return images
