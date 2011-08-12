@@ -1,5 +1,4 @@
 import os.path
-import datetime
 from django.test.client import Client
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -49,6 +48,23 @@ class BrowseImagesTestCase(TestCase):
 
         response = self.c.get(reverse('admin:images_admin_upload'))
         self.assertEqual(response.status_code, 200)
+
+    def test_upload_image(self):
+
+        f = open(os.path.join(os.path.dirname(__file__),
+                'images_support/medellin.jpg'))
+
+        data = {
+            'image': f,
+            'title': 'uploaded img',
+            'authors_override': 'bob marley',
+        }
+
+        response = self.c.post(reverse('admin:images_admin_upload'), data, 
+                follow=True)
+        f.close()
+
+        self.assertTrue(Image.objects.filter(title=data['title']).exists())
 
     def test_render_thumbnail(self):
 
