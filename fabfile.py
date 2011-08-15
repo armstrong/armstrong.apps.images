@@ -11,6 +11,7 @@ settings = {
         'django.contrib.sessions',
         'django.contrib.sites',
         'django.contrib.staticfiles',
+        'taggit',
         'armstrong.core.arm_content',
         'armstrong.core.arm_sections',
         'armstrong.apps.content',
