@@ -6,18 +6,24 @@ This app provides an Image model and Django admin image browse functionality for
 .. warning:: This is development level software.  Please do not use unless you 
              are familiar with what that means and are comfortable using that 
              type of software.
- 
-Usage
------
 
-**TODO**
 
 Installation
 ------------
 
-::
+You can install the development release of this by using::
 
-    pip install armstrong.apps.images
+    name="armstrong.apps.images"
+    pip install -e git://github.com/armstrong/$name#egg=$name
+
+Then add the following to your installed applications::
+
+    INSTALLED_APPS = (
+        ...
+        'armstrong.apps.content',
+        'armstrong.apps.images',
+        'sorl.thumbnail',
+    )
 
 
 Contributing
