@@ -1,19 +1,29 @@
 import random
 import os.path
 import datetime
-from django.test import TestCase as DjangoTestCase
+
+from django.conf import settings
 from django.core.files import File
+from django.test import TestCase as DjangoTestCase
+
 from ..models import Image
 
-PATH_TO_IMG_FILE = os.path.join(os.path.dirname(__file__),
-        'images_support/medellin.jpg')
+LOCAL_IMAGE_PATH = os.path.join(os.path.dirname(__file__),
+                                'images_support/medellin.jpg')
+SERVER_IMAGE_PATH = os.path.join(settings.MEDIA_ROOT,
+                                 'armstrong', 'test_uploads', 'medellin.jpg')
+
 
 def generate_random_image():
     title = 'Random title %s' % random.randint(100,1000)
     summary = 'Random summary %s' % random.randint(100,1000)
-    f = open(PATH_TO_IMG_FILE)
-    return Image.objects.create(title=title, summary=summary, image=File(f),
-            pub_date=datetime.datetime.now())
+    pub_date = datetime.datetime.now()
+    f = open(LOCAL_IMAGE_PATH)
+    with open(LOCAL_IMAGE_PATH) as f:
+        im = Image.objects.create(title=title, summary=summary,
+                                  pub_date=pub_date, image=File(f))
+    return im
+
 
 class TestCase(DjangoTestCase):
     def setUp(self):

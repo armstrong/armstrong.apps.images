@@ -8,7 +8,8 @@ from django.contrib.sites.models import Site
 
 from armstrong.core.arm_sections.models import Section
 
-from ._utils import generate_random_image, TestCase, PATH_TO_IMG_FILE
+from ._utils import generate_random_image, TestCase, \
+                    LOCAL_IMAGE_PATH, SERVER_IMAGE_PATH
 from ..models import Image
 
 
@@ -54,7 +55,7 @@ class ImageAdminTestCase(TestCase):
 
     def test_upload_image(self):
         self.assertTrue(not Image.objects.filter(title='uploaded').exists())
-        with open(PATH_TO_IMG_FILE) as image:
+        with open(LOCAL_IMAGE_PATH) as image:
             url = reverse('admin:images_admin_upload')
             response = self.client.post(url, {
                     'image': image,
@@ -71,6 +72,7 @@ class ImageAdminTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Image.objects.filter(title='uploaded').exists())
+        self.assertTrue(os.path.exists(SERVER_IMAGE_PATH))
 
     def test_render_thumbnail(self):
         url = reverse('images_render_thumbnail',
