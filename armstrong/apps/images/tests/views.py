@@ -58,21 +58,21 @@ class ImageAdminTestCase(TestCase):
 
     def test_upload_image(self):
         self.assertTrue(not Image.objects.filter(title='uploaded').exists())
-        with open(LOCAL_IMAGE_PATH) as image:
-            url = reverse('admin:images_admin_upload')
-            response = self.client.post(url, {
-                    'image': image,
-                    'title': 'uploaded',
-                    'slug': 'uploaded',
-                    'summary': 'uploaded image',
-                    'authors_override': 'bob marley',
-                    'pub_date': '2011-08-15',
-                    'pub_status': 'D',
-                    'tags': 'test tags',
-                    'primary_section': self.section.id,
-                    'sites': Site.objects.get_current().id,
-                    }, follow=True)
-
+        f = open(LOCAL_IMAGE_PATH)
+        url = reverse('admin:images_admin_upload')
+        response = self.client.post(url, {
+                'image': f,
+                'title': 'uploaded',
+                'slug': 'uploaded',
+                'summary': 'uploaded image',
+                'authors_override': 'bob marley',
+                'pub_date': '2011-08-15',
+                'pub_status': 'D',
+                'tags': 'test tags',
+                'primary_section': self.section.id,
+                'sites': Site.objects.get_current().id,
+                }, follow=True)
+        f.close()
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Image.objects.filter(title='uploaded').exists())
         self.assertTrue(os.path.exists(SERVER_IMAGE_PATH))
