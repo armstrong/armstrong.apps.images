@@ -24,10 +24,12 @@ class ImageAdminTestCase(TestCase):
         self.images = [generate_random_image() for i in range(10)]
         self.section = Section.objects.create(title='Test Section')
 
-    def _tearDown(self):
-        shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'cache'))
+    def tearDown(self):
         shutil.rmtree(os.path.join(settings.MEDIA_ROOT,
                                    'armstrong', 'test_uploads'))
+        sorl_cache_path = os.path.join(settings.MEDIA_ROOT, 'cache')
+        if os.path.isdir(sorl_cache_path):
+            shutil.rmtree(sorl_cache_path)
 
     def test_browse_without_search(self):
         response = self.client.get(reverse('admin:images_admin_browse'))
