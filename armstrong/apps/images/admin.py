@@ -21,7 +21,6 @@ class ImageAdmin(admin.ModelAdmin):
             url(r'^upload/$',
                 self.admin_site.admin_view(UploadImage.as_view()),
                 name='images_admin_upload'),
-
         )
         return browse_urls + urls
 
