@@ -1,6 +1,6 @@
 armstrong.apps.images
 =====================
-Provides an images model and django admin image browse functionality for ckeditor integration.
+This app provides an Image model and Django admin image browse functionality for CKEditor integration.
 
 
 .. warning:: This is development level software.  Please do not use unless you 
