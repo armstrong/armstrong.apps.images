@@ -5,10 +5,11 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
+from django.test import TestCase
 
 from armstrong.core.arm_sections.models import Section
 
-from ._utils import generate_random_image, TestCase, \
+from ._utils import generate_random_image, \
                     LOCAL_IMAGE_PATH, SERVER_IMAGE_PATH
 from ..models import Image
 
