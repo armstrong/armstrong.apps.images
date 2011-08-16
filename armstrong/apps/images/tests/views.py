@@ -26,7 +26,7 @@ class ImageAdminTestCase(TestCase):
 
     def tearDown(self):
         shutil.rmtree(os.path.join(settings.MEDIA_ROOT,
-                                   'armstrong', 'test_uploads'))
+                                   settings.ARMSTRONG_IMAGES_UPLOAD_PATH))
         sorl_cache_path = os.path.join(settings.MEDIA_ROOT, 'cache')
         if os.path.isdir(sorl_cache_path):
             shutil.rmtree(sorl_cache_path)

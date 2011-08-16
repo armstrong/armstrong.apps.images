@@ -8,11 +8,12 @@ from django.test import TestCase as DjangoTestCase
 
 from ..models import Image
 
-LOCAL_IMAGE_PATH = os.path.join(os.path.dirname(__file__),
-                                'images_support/medellin.jpg')
-SERVER_IMAGE_PATH = os.path.join(settings.MEDIA_ROOT,
-                                 'armstrong', 'test_uploads', 'medellin.jpg')
 
+LOCAL_IMAGE_PATH = os.path.join(os.path.dirname(__file__),
+                                'support', 'medellin.jpg')
+SERVER_IMAGE_PATH = os.path.join(settings.MEDIA_ROOT,
+                                 settings.ARMSTRONG_IMAGES_UPLOAD_PATH,
+                                'medellin.jpg')
 
 def generate_random_image():
     title = 'Random title %s' % random.randint(100, 1000)
