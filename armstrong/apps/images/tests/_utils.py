@@ -15,8 +15,8 @@ SERVER_IMAGE_PATH = os.path.join(settings.MEDIA_ROOT,
 
 
 def generate_random_image():
-    title = 'Random title %s' % random.randint(100,1000)
-    summary = 'Random summary %s' % random.randint(100,1000)
+    title = 'Random title %s' % random.randint(100, 1000)
+    summary = 'Random summary %s' % random.randint(100, 1000)
     pub_date = datetime.datetime.now()
     f = open(LOCAL_IMAGE_PATH)
     with open(LOCAL_IMAGE_PATH) as f:
