@@ -8,10 +8,10 @@ from django.core.files import File
 from ..models import Image
 
 LOCAL_IMAGE_PATH = os.path.join(os.path.dirname(__file__),
-                                'support', 'medellin.jpg')
+                                'support', 'smiley.jpg')
 SERVER_IMAGE_PATH = os.path.join(settings.MEDIA_ROOT,
                                  settings.ARMSTRONG_IMAGES_UPLOAD_PATH,
-                                'medellin.jpg')
+                                'smiley.jpg')
 
 
 def generate_random_image():

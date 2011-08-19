@@ -77,4 +77,6 @@ limitations under the License.
 
 Credits
 -------
-The image file, medellin.jpg, is courtesy of Peter Gullekson.
+The image file, smiley.jpg, was created by Dave McLain as a work for hire, its
+copyright is held by the Texas Tribune and is licensed under the Creative
+Commons Attribution license.
