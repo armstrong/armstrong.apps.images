@@ -1,0 +1,10 @@
+{
+    "name": "armstrong.apps.images",
+    "version": "0.1.0.alpha.0",
+    "description": "This packages provides images for the Armstrong CMS",
+    "install_requires": [
+      "armstrong.apps.content",
+      "sorl-thumbnail",
+      "PIL"
+    ]
+}

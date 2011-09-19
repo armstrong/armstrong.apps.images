@@ -1,0 +1,10 @@
+*.pyc
+*~
+*.swp
+coverage/*
+build/*
+docs/_build
+MANIFEST
+dist/
+*.DS_Store
+

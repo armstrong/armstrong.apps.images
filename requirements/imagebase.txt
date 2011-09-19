@@ -1,0 +1,2 @@
+-e git://github.com/nosamanuel/armstrong.core.arm_content.git@imagebase#egg=armstrong.core.arm_content
+-r ./dev.txt

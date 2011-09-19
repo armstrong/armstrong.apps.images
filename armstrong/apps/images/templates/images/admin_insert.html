@@ -1,0 +1,42 @@
+{% load thumbnail %}
+<!doctype html>
+<html> 
+	<head> 
+    <script>
+    if(!armstrong) var armstrong={};
+    armstrong.insert_image = function(){
+        var width = document.getElementById('width').value,
+            height = document.getElementById('height').value,
+            html = '<img src="{% url images_render_thumbnail image.id '' %}';
+
+        if (width) {
+            html += width;
+        }
+        if (height) {
+            html += 'x' + height;
+        }
+        if (!width && !height) {
+            html += 'original';
+        }
+
+        html += '" />';
+
+        window.returnValue = html;
+        window.close();
+    };
+    </script>
+	</head> 
+    <body> 
+        <h3>{{ image.title }}</h3>
+        {% thumbnail image.image "300" as im %}
+        <img src="{{ im.url }}" />
+        {% endthumbnail %}
+
+        <p>
+        Width: <input type="text" id="width" name="width" /><br />
+        Height: <input type="text" id="height" name="height" />
+        </p>
+
+        <input type="button" value="Insert" onclick="armstrong.insert_image();" />
+    </body>
+</html>

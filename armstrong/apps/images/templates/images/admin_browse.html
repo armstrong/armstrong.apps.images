@@ -1,0 +1,29 @@
+{% load thumbnail %}
+<!doctype html>
+<html> 
+    <head>
+    </head>
+    <body>
+        <form method="get" action="">
+            <input type="text" name="q" />
+            <input type="submit" value="Search" />
+        </form>
+        <div>
+        {% for image in image_list %}
+            {% thumbnail image.image "100x100" crop="center" as im %}
+            <a href="{% url admin:images_admin_insert image.id %}" title="{{ image.title }}"><img src="{{ im.url }}" /></a> 
+            {% endthumbnail %}
+        {% endfor %}
+        </div>
+        <p>
+            Pages: 
+            {% for page in paginator.page_range %}
+                {% ifequal page_obj.number page %}
+                {{ page }}
+                {% else %}
+                <a href="?q={{ request.GET.q }}&page={{ page }}">{{ page }}</a>
+                {% endifequal %}
+            {% endfor %}
+        </p>
+    </body>
+</html>
