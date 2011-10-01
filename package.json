@@ -3,8 +3,8 @@
     "version": "0.2.0.alpha.0",
     "description": "This packages provides images for the Armstrong CMS",
     "install_requires": [
-      "armstrong.apps.content",
-      "sorl-thumbnail",
-      "PIL"
+      "armstrong.apps.content>=1.0.0,<1.1",
+      "sorl-thumbnail==11.05.2",
+      "PIL==1.1.7"
     ]
 }
