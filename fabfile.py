@@ -11,6 +11,7 @@ settings = {
         'django.contrib.sessions',
         'django.contrib.sites',
         'django.contrib.staticfiles',
+        'armstrong.core.arm_access',
         'armstrong.core.arm_sections',
         'armstrong.apps.content',
         'armstrong.apps.images',
