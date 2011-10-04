@@ -69,6 +69,7 @@ class ImageAdminTestCase(TestCase):
                 'pub_date': '2011-08-15',
                 'pub_status': 'D',
                 'tags': 'test tags',
+                'access_is_public': '1',
                 'primary_section': self.section.id,
                 'sites': Site.objects.get_current().id,
                 }, follow=True)
