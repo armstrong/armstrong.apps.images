@@ -1,7 +1,9 @@
+from functools import wraps
 import os.path
 import shutil
 
 from django.conf import settings
+from django.core.urlresolvers import NoReverseMatch
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -12,6 +14,17 @@ from armstrong.core.arm_sections.models import Section
 from ._utils import generate_random_image, \
                     LOCAL_IMAGE_PATH, SERVER_IMAGE_PATH
 from ..models import Image
+
+
+def skip_unless_app_urls_are_available(func):
+    @wraps(func)
+    def inner(self, *args, **kwargs):
+        try:
+            reverse("images_render_original", kwargs={"pk": 1})
+            func(self, *args, **kwargs)
+        except NoReverseMatch:
+            self.skipTest("unable to load app-specific URLs")
+    return inner
 
 
 class ImageAdminTestCase(TestCase):
@@ -56,6 +69,7 @@ class ImageAdminTestCase(TestCase):
         response = self.client.get(reverse('admin:images_admin_upload'))
         self.assertEqual(response.status_code, 200)
 
+    @skip_unless_app_urls_are_available
     def test_upload_image(self):
         self.assertTrue(not Image.objects.filter(title='uploaded').exists())
         f = open(LOCAL_IMAGE_PATH)
@@ -78,12 +92,14 @@ class ImageAdminTestCase(TestCase):
         self.assertTrue(Image.objects.filter(title='uploaded').exists())
         self.assertTrue(os.path.exists(SERVER_IMAGE_PATH))
 
+    @skip_unless_app_urls_are_available
     def test_render_thumbnail(self):
         url = reverse('images_render_thumbnail',
                 kwargs={'pk': self.images[0].id, 'geometry': '100x200'})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
+    @skip_unless_app_urls_are_available
     def test_render_original(self):
         url = reverse('images_render_original',
                       kwargs={'pk': self.images[0].id})
