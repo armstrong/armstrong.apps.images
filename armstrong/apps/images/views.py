@@ -9,7 +9,7 @@ from django.views.generic import ListView, CreateView, RedirectView
 
 from sorl.thumbnail.shortcuts import get_thumbnail
 
-from .models import Image
+from .models import Image, ImageSet
 
 
 class BrowseImages(ListView):
@@ -57,3 +57,26 @@ class RenderThumbnail(RedirectView):
             self.url = get_thumbnail(image.image, geometry).url
 
         return super(RenderThumbnail, self).get_redirect_url(**kwargs)
+
+class BrowseImageSets(ListView):
+    model = ImageSet
+    template_name = 'images/admin_browse_imageset.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        fields = ['title', 'summary']
+        query = self.request.GET.get('q')
+        isets = super(BrowseImageSets, self).get_queryset()
+
+        if not query:
+            return isets
+
+        outer_q = []
+        for token in query.split():
+            inner_q = []
+            for field in fields:
+                inner_q.append(models.Q(**{field + '__icontains': token}))
+            outer_q.append(reduce(operator.or_, inner_q))
+
+        return isets.filter(reduce(operator.and_, outer_q))
+        
