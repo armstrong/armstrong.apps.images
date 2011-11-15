@@ -18,6 +18,7 @@ settings = {
         'armstrong.apps.images.tests.support',
         'taggit',
         'sorl.thumbnail',
+        'south',
     ),
     'SITE_ID': 1,
     'ROOT_URLCONF': 'armstrong.apps.images.tests.support.urls',
