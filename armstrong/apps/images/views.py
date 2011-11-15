@@ -61,7 +61,7 @@ class RenderThumbnail(RedirectView):
 class BrowseImageSets(ListView):
     model = ImageSet
     template_name = 'images/admin_browse_imageset.html'
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         fields = ['title', 'summary']

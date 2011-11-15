@@ -11,7 +11,7 @@ from django.test import TestCase
 
 from armstrong.core.arm_sections.models import Section
 
-from ._utils import generate_random_image, \
+from ._utils import generate_random_image, generate_random_imageset, \
                     LOCAL_IMAGE_PATH, SERVER_IMAGE_PATH
 from ..models import Image
 
@@ -26,8 +26,31 @@ def skip_unless_app_urls_are_available(func):
             self.skipTest("unable to load app-specific URLs")
     return inner
 
+class ImageSetAdminTestCaseMixin:
+    def setUp(self):
+        self.image_sets = [generate_random_imageset() for i in range(5)]
+        
+    def test_browse_iset_without_search(self):
+        response = self.client.get(reverse('admin:imagesets_admin_browse'))
+        self.assertEqual(response.status_code, 200)
+        for iset in self.image_sets:
+            self.assertTrue(iset in response.context['imageset_list'])
 
-class ImageAdminTestCase(TestCase):
+    def test_browse_iset_unmatching_search(self):
+        url = '%s?q=%s' % (reverse('admin:imagesets_admin_browse'), 'blahblah')
+        response = self.client.get(url)
+        self.assertEqual(len(response.context['imageset_list']), 0)
+
+    def test_browse_iset_matching_search(self):
+        self.image_sets[0].title = 'doodaaday'
+        self.image_sets[0].save()
+
+        url = '%s?q=%s' % (reverse('admin:imagesets_admin_browse'), 'doodaa')
+        response = self.client.get(url)
+        self.assertEqual(len(response.context['imageset_list']), 1)
+        self.assertTrue(self.image_sets[0] in response.context['imageset_list'])
+        
+class ImageAdminTestCase(TestCase, ImageSetAdminTestCaseMixin):
     def setUp(self):
         user = User.objects.create_user('admin', 'admin@armstrongcms.org',
                                         'admin')
@@ -37,7 +60,9 @@ class ImageAdminTestCase(TestCase):
         self.client.login(username='admin', password='admin')
         self.images = [generate_random_image() for i in range(10)]
         self.section = Section.objects.create(title='Test Section')
-
+        
+        ImageSetAdminTestCaseMixin.setUp(self)
+        
     def tearDown(self):
         shutil.rmtree(os.path.join(settings.MEDIA_ROOT,
                                    settings.ARMSTRONG_IMAGES_UPLOAD_PATH))
