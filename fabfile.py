@@ -1,4 +1,5 @@
 import os.path
+from fabric.api import *
 from armstrong.dev.tasks import *
 
 
@@ -32,3 +33,20 @@ settings = {
 pip_install_first = True
 main_app = "images"
 tested_apps = (main_app,)
+
+
+@task
+def update_colorbox():
+    """Update Colorbox code from vendor tree"""
+    base_name = os.path.dirname(__file__)
+    destination = os.path.join(base_name, "armstrong", "apps", "images", "static", "colorbox")
+    colorbox_source = os.path.join(base_name, "vendor", "colorbox")
+    colorbox_files = [
+        os.path.join(colorbox_source, "example1", "colorbox.css"),
+        os.path.join(colorbox_source, "example1", "images"),
+        os.path.join(colorbox_source, "colorbox", "jquery.colorbox-min.js"),
+    ]
+    local("cp -R %s %s" % (" ".join(colorbox_files), destination))
+
+    # We're not supporting IE6, so we can drop the backfill
+    local("rm -rf %s" % (os.path.join(destination, "images", "ie6")))

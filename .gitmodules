@@ -1,0 +1,3 @@
+[submodule "vendor/colorbox"]
+	path = vendor/colorbox
+	url = git://github.com/jackmoore/colorbox.git
