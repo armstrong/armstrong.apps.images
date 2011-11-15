@@ -10,4 +10,7 @@ script:
 notifications:
   email: false
   irc:
-    - "irc.freenode.org#armstrongcms"
+    on_success: always
+    on_failure: always
+    channels:
+      - "irc.freenode.org#armstrongcms"
