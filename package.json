@@ -1,6 +1,6 @@
 {
     "name": "armstrong.apps.images",
-    "version": "1.1.0",
+    "version": "1.2.0alpha.0",
     "description": "This packages provides images for the Armstrong CMS",
     "install_requires": [
       "armstrong.apps.content>=1.0.0,<1.1",
