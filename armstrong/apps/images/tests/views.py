@@ -1,5 +1,6 @@
 from functools import wraps
 import os.path
+import PIL.Image
 import shutil
 
 from django.conf import settings
@@ -25,6 +26,16 @@ def skip_unless_app_urls_are_available(func):
         except NoReverseMatch:
             self.skipTest("unable to load app-specific URLs")
     return inner
+
+
+def skip_if_jpeg_decoder_not_available(func):
+    @wraps(func)
+    def inner(self, *args, **kwargs):
+        if not hasattr(PIL.Image.core, "jpeg_decoder"):
+            return self.skipTest("unable to load jpeg decoder for PIL")
+        return func(self, *args, **kwargs)
+    return inner
+
 
 class ImageSetAdminTestCaseMixin:
     def setUp(self):
@@ -118,6 +129,7 @@ class ImageAdminTestCase(TestCase, ImageSetAdminTestCaseMixin):
         self.assertTrue(os.path.exists(SERVER_IMAGE_PATH))
 
     @skip_unless_app_urls_are_available
+    @skip_if_jpeg_decoder_not_available
     def test_render_thumbnail(self):
         url = reverse('images_render_thumbnail',
                 kwargs={'pk': self.images[0].id, 'geometry': '100x200'})
