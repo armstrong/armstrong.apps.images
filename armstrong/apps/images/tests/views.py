@@ -40,7 +40,7 @@ def skip_if_jpeg_decoder_not_available(func):
 class ImageSetAdminTestCaseMixin:
     def setUp(self):
         self.image_sets = [generate_random_imageset() for i in range(5)]
-        
+
     def test_browse_iset_without_search(self):
         response = self.client.get(reverse('admin:imagesets_admin_browse'))
         self.assertEqual(response.status_code, 200)
@@ -60,7 +60,7 @@ class ImageSetAdminTestCaseMixin:
         response = self.client.get(url)
         self.assertEqual(len(response.context['imageset_list']), 1)
         self.assertTrue(self.image_sets[0] in response.context['imageset_list'])
-        
+
 class ImageAdminTestCase(TestCase, ImageSetAdminTestCaseMixin):
     def setUp(self):
         user = User.objects.create_user('admin', 'admin@armstrongcms.org',
@@ -71,9 +71,9 @@ class ImageAdminTestCase(TestCase, ImageSetAdminTestCaseMixin):
         self.client.login(username='admin', password='admin')
         self.images = [generate_random_image() for i in range(10)]
         self.section = Section.objects.create(title='Test Section')
-        
+
         ImageSetAdminTestCaseMixin.setUp(self)
-        
+
     def tearDown(self):
         shutil.rmtree(os.path.join(settings.MEDIA_ROOT,
                                    settings.ARMSTRONG_IMAGES_UPLOAD_PATH))
