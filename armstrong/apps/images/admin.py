@@ -4,9 +4,8 @@ from django.views.generic import DetailView
 
 from armstrong.core.arm_content.admin import fieldsets
 
-from .models import Image
-from .views import BrowseImages, UploadImage
-
+from .models import Image, ImageSet, ImageSetElement
+from .views import BrowseImages, BrowseImageSets, UploadImage
 
 class ImageAdmin(admin.ModelAdmin):
     fieldsets = (
@@ -36,5 +35,31 @@ class ImageAdmin(admin.ModelAdmin):
         )
         return browse_urls + urls
 
+class ImageSetElementInline(admin.TabularInline):
+    model = ImageSetElement
+    raw_id_fields = ('image', )
+        
+class ImageSetAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'summary'),
+        }),
 
+        fieldsets.TAXONOMY,
+        fieldsets.PUBLICATION,
+        fieldsets.AUTHORS,
+    )
+    
+    inlines = (ImageSetElementInline,)
+    
+    def get_urls(self):
+        urls = super(ImageSetAdmin, self).get_urls()
+        browse_urls = patterns('',
+            url(r'^browse/$',
+                self.admin_site.admin_view(BrowseImageSets.as_view()),
+                name='imagesets_admin_browse'),
+        )
+        return browse_urls + urls
+        
 admin.site.register(Image, ImageAdmin)
+admin.site.register(ImageSet, ImageSetAdmin)
