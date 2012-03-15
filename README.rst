@@ -1,29 +1,34 @@
 armstrong.apps.images
 =====================
-This app provides an Image model and Django admin image browse functionality for CKEditor integration.
+Provides functionality around handling images inside Django.
 
 
-.. warning:: This is development level software.  Please do not use unless you 
-             are familiar with what that means and are comfortable using that 
-             type of software.
+Usage
+-----
+This package is currently in the process of being revisited.  This section will
+be updated once that has been done.
 
 
-Installation
-------------
+Installation & Configuration
+----------------------------
+You can install the latest release of ``armstrong.apps.images`` using `pip`_:
 
-You can install the development release of this by using::
+::
 
-    name="armstrong.apps.images"
-    pip install -e git://github.com/armstrong/$name#egg=$name
+    pip install armstrong.apps.images
 
-Then add the following to your installed applications::
+Make sure to add ``armstrong.apps.images`` and ``armstrong.apps.content`` to
+your ``INSTALLED_APPS``.  You can add this however you like.  This works as a
+copy-and-paste solution:
 
-    INSTALLED_APPS = (
-        ...
-        'armstrong.apps.content',
-        'armstrong.apps.images',
-        'sorl.thumbnail',
-    )
+::
+
+	INSTALLED_APPS += ["armstrong.apps.images", "armstrong.apps.content", ]
+
+``armstrong.apps.content`` is required because ``Image`` extends from the
+``Content`` model inside ``apps.content``.
+
+.. _pip: http://www.pip-installer.org/
 
 
 Contributing
@@ -45,7 +50,7 @@ State of Project
 Armstrong is an open-source news platform that is freely available to any
 organization.  It is the result of a collaboration between the `Texas Tribune`_
 and `Bay Citizen`_, and a grant from the `John S. and James L. Knight
-Foundation`_.  The first release is scheduled for June, 2011.
+Foundation`_.
 
 To follow development, be sure to join the `Google Group`_.
 
