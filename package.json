@@ -3,7 +3,7 @@
     "version": "1.1.1alpha",
     "description": "This packages provides images for the Armstrong CMS",
     "install_requires": [
-      "armstrong.apps.content>=1.0.0,<1.1",
+      "armstrong.apps.content>=1.0.0,<2.0",
       "sorl-thumbnail==11.05.2",
       "PIL==1.1.7"
     ]
